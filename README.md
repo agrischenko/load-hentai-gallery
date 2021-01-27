@@ -3,7 +3,7 @@ Load image sets from https://e-hentai.org
 
 Visit main site.
 Select gallery.
-Copy link and use 'node download.js <link>'.
+Copy link and use 'node download.js [link]'.
 Enjoy.
 
 No warranties of stability work! :)
