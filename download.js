@@ -123,13 +123,13 @@ function Loader (base_dir, max_slides) {
  */
 (async () => {
     const Usage = '\
-    Usage: node gallery_loader [options] <gallery_uri>\n\
+    Usage: node download.js [options] <gallery_uri>\n\
     Options:\n\
         -d<base_dir> - Additional directory for category\n\
         -nN          - Download first N slides only.\n\
                        0 means all slides (by default)\n\
     '
-    const args = process.argv.slice(2);
+    const args = process.argv.slice(1);
     if (!args.length) {
         return console.log(Usage);
     }

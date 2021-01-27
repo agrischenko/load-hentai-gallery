@@ -1,26 +1,25 @@
+const find_value = (html, regexp, group) => {
+    return (html.match(regexp) || [])[group];
+};
+
 const get_main = (html) => {
-    const regexp = /(id="img").*?src="(.+?)"/;
-    return (html.match(regexp) || [])[2];
+    return find_value(html, /(id="img").*?src="(.+?)"/, 2);
 };
 
 const get_next_link = (html) => {
-    const regexp = /(id="next").*?href="(.+?)"/;
-    return (html.match(regexp) || [])[2];
+    return find_value(html, /(id="next").*?href="(.+?)"/, 2);
 };
 
 const get_gallery_name = (html) => {
-    const regexp = /\n?<title>(.+?)<\/title>\n?/;
-    return (html.match(regexp) || [])[1];
+    return find_value(html, /\n?<title>(.+?)<\/title>\n?/, 1);
 };
 
 const get_total_pages = (html) => {
-    const regexp = /class="gdt2">(\d+) pages</;
-    return (html.match(regexp) || [])[1];
+    return find_value(html, /class="gdt2">(\d+) pages</, 1);
 };
 
 const get_first_slide_link = (html) => {
-    const regexp = /class="gdtm".*?href="(.+?)"/;
-    return (html.match(regexp) || [])[1];
+    return find_value(html, /class="gdtm".*?href="(.+?)"/, 1);
 };
 
 module.exports = {
