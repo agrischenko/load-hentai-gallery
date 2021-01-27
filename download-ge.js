@@ -4,8 +4,6 @@ const path = require('path');
 const Values = require('./find-values');
 const Utils = require('./utils');
 
-const NEXT_ITEM_TIMEOUT_MS = 300;
-
 function Loader (base_dir, gallery_uri) {
 
     let _total_pages = 0;
@@ -49,14 +47,8 @@ function Loader (base_dir, gallery_uri) {
         total_size = 0;
         while(!!next_slide_uri && old_next_uri !== next_slide_uri && idx <= _total_pages) {
             old_next_uri = next_slide_uri;
-
-            const worker = () => new Promise(ok => setTimeout(async () => {
-                next_slide_uri = await load_gallery_slide(idx, next_slide_uri);
-                idx++;
-                ok();
-            }, NEXT_ITEM_TIMEOUT_MS));
-    
-            await worker();
+            next_slide_uri = await load_gallery_slide(idx, next_slide_uri);
+            idx++;
         }
     
         console.log(`Gallery loaded. Total size: ${Utils.format_file_size(total_size)}`);

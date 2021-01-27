@@ -18,7 +18,7 @@ const percent_format = Intl.NumberFormat('en-US', {style: 'percent', minimumFrac
 
 function print_progress (percent) {
     let dots = parseInt((100 * percent) / 10);
-    return `[${dots ? '='.repeat(dots) : ''}>] ${percent_format.format(percent)}`;
+    return `[${dots ? '='.repeat(dots) : ''}${' '.repeat(10-dots)}] ${percent_format.format(percent)}`;
 }
 module.exports = {
     zero_number,
