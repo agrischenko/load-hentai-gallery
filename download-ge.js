@@ -20,19 +20,22 @@ function Loader (base_dir, gallery_uri) {
         const next_link_uri = Values.get_next_link(body);
         if (main_file_uri) {
 
-            const image = await got(main_file_uri);
-            const file_size = image.rawBody.length;
-
             let fname = main_file_uri.substr(main_file_uri.lastIndexOf('/')+1);
             fname = `${Utils.zero_number(idx)}_${fname}`;
+
+            const image = await got(main_file_uri)
+                .on('downloadProgress', progress => {
+                    process.stdout.write(`Loading ${idx}/${_total_pages} `
+                    + `(${link}) to ${fname} (${Utils.format_file_size(progress.total)}) `
+                    + `${Utils.print_progress(progress.percent)}\r`);
+                });
+            const file_size = image.rawBody.length;
+
             const file_path = `${gallery_dir_path}/${fname}`;
-
-            process.stdout.write(`Write ${fname} (${Utils.format_file_size(file_size)}) on disk.. `);
-
             fs.writeFileSync(file_path, image.rawBody);
 
             total_size += file_size;
-            console.log('ok');
+            console.log();
         }
         return next_link_uri;
     }
@@ -44,11 +47,10 @@ function Loader (base_dir, gallery_uri) {
         let old_next_uri = '';
         let next_slide_uri = first_slide_uri;
         total_size = 0;
-        while(!!next_slide_uri && old_next_uri !== next_slide_uri && idx < _total_pages) {
+        while(!!next_slide_uri && old_next_uri !== next_slide_uri && idx <= _total_pages) {
             old_next_uri = next_slide_uri;
 
             const worker = () => new Promise(ok => setTimeout(async () => {
-                process.stdout.write(`Loading slide ${idx}/${_total_pages} (${next_slide_uri})... `);
                 next_slide_uri = await load_gallery_slide(idx, next_slide_uri);
                 idx++;
                 ok();
