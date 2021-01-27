@@ -1,2 +1,2 @@
 # load-hentai-gallery
-Load image galleries from e.hentai.org
+Load image galleries from https://e-hentai.org
